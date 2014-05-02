@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 setup(
     name='vdscrypter',
     version='0.00',
-    packages=find_packages('src'),
+    packages=find_packages('.'),
     url='',
     license='',
     author='Oscillot',

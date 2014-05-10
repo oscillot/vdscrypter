@@ -1,5 +1,6 @@
 import os
 import time
+import shutil
 import tempfile
 from PIL import Image
 
@@ -12,6 +13,8 @@ class Video(object):
         self.initialized = False
         self.workspace = tempfile.mkdtemp()
         self.original_file = None
+        self.fixed_file = None
+        self.is_animated = False
         self.temp_file = os.path.join(self.workspace, str(int(time.time())))
 
     def prevent_multiple_initializations(self):
@@ -27,12 +30,42 @@ class Video(object):
 
     def is_image(self):
         for fmat in ['.bmp', '.jpg', '.jpeg', 'gif', '.tga']:
+            #TODO consider using magic bytes to ID files better
             if self.original_file.endswith(fmat):
                 return True
         return False
 
+    def is_jpeg(self):
+        for fmat in ['.jpg', '.jpeg']:
+            #TODO consider using magic bytes to ID files better
+            if self.original_file.endswith(fmat):
+                return True
+        return False
+
+    def is_gif(self):
+        #TODO consider using magic bytes to ID files better
+        if self.original_file.endswith('.gif'):
+            return True
+        return False
+
+    def is_animated(self):
+        im = Image.open(self.original_file)
+        try:
+            im.seek(1)
+        except EOFError:
+            pass
+        else:
+            self.is_animated = True
+
     def fix_image(self):
-        raise NotImplemented
+        if self.is_jpeg():
+            #open with PIL and save as BMP
+            im = Image.open(self.original_file)
+            new_file = self.original_file.rsplit('.', 1)[0] + '.bmp'
+            im.save(new_file)
+            self.fixed_file = new_file
+        else:
+            return
 
     def new(self, width, height, color="black"):
         """Initializes the video object as a new video"""

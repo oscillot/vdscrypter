@@ -1,13 +1,43 @@
+import os
+
 from setuptools import setup, find_packages
 
-setup(
-    name='vdscrypter',
-    version='0.00',
-    packages=find_packages('.'),
-    url='',
-    license='',
-    author='Oscillot',
-    author_email='oscillot@trioptimum.com',
-    description='',
-    requires=['pillow']
-)
+here = os.path.abspath(os.path.dirname(__file__))
+with open(os.path.join(here, 'README.txt')) as f:
+    README = f.read()
+with open(os.path.join(here, 'CHANGES.txt')) as f:
+    CHANGES = f.read()
+
+requires = [
+    'pyramid',
+    'pyramid_chameleon',
+    'pyramid_debugtoolbar',
+    'waitress',
+    'pillow'
+    ]
+
+setup(name='vdscrypter',
+      version='0.0',
+      description='vdscrypter',
+      long_description=README + '\n\n' + CHANGES,
+      classifiers=[
+        "Programming Language :: Python",
+        "Framework :: Pyramid",
+        "Topic :: Internet :: WWW/HTTP",
+        "Topic :: Internet :: WWW/HTTP :: WSGI :: Application",
+        ],
+      author='',
+      author_email='',
+      url='',
+      keywords='web pyramid pylons',
+      packages=find_packages(),
+      include_package_data=True,
+      zip_safe=False,
+      install_requires=requires,
+      tests_require=requires,
+      test_suite="vdscrypter",
+      entry_points="""\
+      [paste.app_factory]
+      main = vdscrypter:main
+      """,
+      )

@@ -11,7 +11,7 @@
             <div style="display: inline-block; vertical-align: top;">
 
             <form id="form_${i}" method="post" action="javascript:preview(${i}); return false;">
-                <input id="full_path${i}" name="full_path_${i}" class="element" type="text" value="${f[1]}" style="display:none;"/>
+                <input id="full_path_${i}" name="full_path_${i}" class="element" type="text" value="${f[1]}" style="display:none;"/>
                 <ul>
                     <li id="li_2_${i}">
                         <label class="description" for="element_2">Loop </label>
@@ -23,7 +23,7 @@
                     <li id="li_1">
                         <label class="description" for="repeat_${i}">Loop Count </label>
                         <div>
-                            <input id="repeat_${i}" name="repeat_${i}" class="element text small" type="text" maxlength="255" value=""/>
+                            <input id="repeat_${i}" name="repeat_${i}" class="element text small" type="text" maxlength="255" value="1"/>
                         </div>
                         <p class="guidelines" id="guide_1_${i}">
                             <small>How many times to loop the video</small>
@@ -40,17 +40,17 @@
                         </p>
                     </li>
 
-                    <li>
-                        <label class="resize_${i}" for="element_5">Resize technique</label>
-                        <span>
-			                <input id="resize_${i}" name="resize_${i}" class="element" type="radio" value="box">Box
-			                <input id="resize_${i}" name="resize_${i}" class="element" type="radio" value="stretch">Fill
-                            <label class="choice" for="resize_${i}">Must Choose 1</label>
-		                </span>
-                        <p class="guidelines" id="guide_5_${i}">
-                            <small>Whether to stretch or to letterbox for the resize that must occur.</small>
-                        </p>
-                    </li>
+##                    <li>
+##                        <label class="resize_${i}" for="element_5">Resize technique</label>
+##                        <span>
+##			                <input id="resize_${i}" name="resize_${i}" class="element" type="radio" value="box">Box
+##			                <input id="resize_${i}" name="resize_${i}" class="element" type="radio" value="stretch">Fill
+##                            <label class="choice" for="resize_${i}">Must Choose 1</label>
+##		                </span>
+##                        <p class="guidelines" id="guide_5_${i}">
+##                            <small>Whether to stretch or to letterbox for the resize that must occur.</small>
+##                        </p>
+##                    </li>
 
                     <li>
                         <label class="description" for="element_4">FPS</label>
@@ -82,7 +82,7 @@ function preview(i){
     var repeat = $("#repeat_" + i + "").val();
     var bounce = $("#bounce_" + i + "").val();
     var fps = $("#fps_" + i + "").val();
-    var resize = $("#resize_" + i + "").val();
+##    var resize = $("#resize_" + i + "").val();
     $.ajax({
         type: "POST",
         url: "/preview",
@@ -90,8 +90,9 @@ function preview(i){
                loop: loop,
                repeat: repeat,
                bounce: bounce,
-               fps: fps,
-               resize: resize},
+               fps: fps
+##               resize: resize
+        },
         dataType:'json'
     });
 }

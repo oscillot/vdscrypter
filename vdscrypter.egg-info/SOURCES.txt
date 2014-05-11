@@ -20,6 +20,6 @@ vdscrypter/static/pyramid-16x16.png
 vdscrypter/static/pyramid.png
 vdscrypter/static/theme.css
 vdscrypter/static/theme.min.css
-vdscrypter/templates/mytemplate.pt
+vdscrypter/templates/home.mako
 vdscrypter/views/__init__.py
-vdscrypter/views/views.py
+vdscrypter/views/home.py

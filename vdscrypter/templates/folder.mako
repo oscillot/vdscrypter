@@ -16,7 +16,7 @@
                     <li id="li_2_${i}">
                         <label class="description" for="element_2">Loop </label>
 		                <span>
-			                <input id="loop_${i}" name="loop_${i}" class="element checkbox" type="checkbox" value="1"/>
+			                <input id="loop_${i}" name="loop_${i}" class="element checkbox" type="checkbox"/>
                             <label class="choice" for="loop_${i}">Enable</label>
                         </span>
                     </li>
@@ -32,7 +32,7 @@
                     <li id="li_3_${i}">
                         <label class="description" for="element_3">Bounce </label>
 		                <span>
-			                <input id="bounce_${i}" name="bounce_${i}" class="element checkbox " type="checkbox" value="1"/>
+			                <input id="bounce_${i}" name="bounce_${i}" class="element checkbox " type="checkbox"/>
                             <label class="choice" for="bounce_${i}">Enable</label>
 		                </span>
                         <p class="guidelines" id="guide_3_${i}">
@@ -78,9 +78,9 @@
 function preview(i){
     console.log(i);
     var full_path = $("#full_path_" + i + "").val();
-    var loop = $("#loop_" + i + "").val();
+    var loop = $("#loop_" + i + "").is(":checked");
     var repeat = $("#repeat_" + i + "").val();
-    var bounce = $("#bounce_" + i + "").val();
+    var bounce = $("#bounce_" + i + "").is(":checked");
     var fps = $("#fps_" + i + "").val();
 ##    var resize = $("#resize_" + i + "").val();
     $.ajax({

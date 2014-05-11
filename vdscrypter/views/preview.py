@@ -1,5 +1,5 @@
 import os
-import shutil
+import webbrowser
 import subprocess
 import tempfile
 from pyramid.view import view_config
@@ -49,7 +49,7 @@ def preview(request):
         previewer = forward_avi
 
         #conditionally reverse and render a reverse version
-        if bounce:
+        if bounce == 'true':
             reversed_gif = os.path.join(tmp_dir, 'reversed.gif')
             reversed_avi = os.path.join(tmp_dir, 'reversed.avi')
             bounced_avi = os.path.join(tmp_dir, 'bounced.avi')
@@ -91,7 +91,7 @@ def preview(request):
             previewer = bounced_avi
 
         print 4
-        if loop and int(repeat) > 1:
+        if loop == 'true' and int(repeat) > 1:
             looped_avi = os.path.join(tmp_dir, 'looped.avi')
             sylia = 'VirtualDub.Open(U"%s");\n' % previewer
             for r in range(int(repeat) - 1):
@@ -108,6 +108,7 @@ def preview(request):
             previewer = looped_avi
 
         os.system("start %s" % previewer)
+
         print 5
     except Exception as e:
         print e.__class__

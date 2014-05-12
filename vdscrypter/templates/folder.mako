@@ -1,3 +1,6 @@
+<%!
+    import os
+    %>
 <!DOCTYPE html>
 <html lang="${request.locale_name}">
 <head>
@@ -12,6 +15,7 @@
     <div id="outer_sort">
     %for i, f in enumerate(found):
         <div id="form_container_${i}" style="white-space: nowrap;position: relative;" class="sortable">
+            <h3>${f[1].rsplit(os.path.sep, 1)[1]}</h3>
             <img src="${f[0]}" style="height:225px;max-width:400px;width: expression(this.width > 400 ? 400: true);" class="img_cls"/>
             <div style="display: inline-block; vertical-align: top;">
 

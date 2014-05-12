@@ -1,3 +1,4 @@
+import tempfile
 from pyramid.config import Configurator
 
 
@@ -12,3 +13,5 @@ def main(global_config, **settings):
     config.add_route('preview', '/preview')
     config.scan()
     return config.make_wsgi_app()
+
+TEMP_DIR = tempfile.mkdtemp(prefix="vdscrypter_")

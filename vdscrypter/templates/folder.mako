@@ -5,6 +5,7 @@
 </head>
 
 <body>
+    <div style="display:none;" id="count" class="${len(found)}"></div>
     %for i, f in enumerate(found):
         <div id="form_container_${i}" style="white-space: nowrap;">
             <img src="${f[0]}" style="height:225px;max-width:400px;width: expression(this.width > 400 ? 400: true);"/>
@@ -68,11 +69,15 @@
                     </li>
                 </ul>
             </form>
-            <div id="footer_${i}" style="display: none;"></a>
+            <form id="render_form" method="post" action="javascript:render(); return false;">
+                <input id="render" class="button_text" type="submit" name="Render" value="Render"/>
+            </form>
             </div>
             </div>
         </div>
     %endfor
+
+
 
 <script>
 function preview(i){
@@ -96,6 +101,14 @@ function preview(i){
         dataType:'json'
     });
 }
+
+function render(){
+    var count = $('#count').getAttribute('class');
+    for (r=0;r<count+1;r++){
+
+    }
+}
+
 </script>
 
 <script src="static/js/h5utils.js"></script>

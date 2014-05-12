@@ -1,9 +1,8 @@
 import os
-import webbrowser
 import subprocess
-import tempfile
 from pyramid.view import view_config
 
+from vdscrypter import TEMP_DIR
 from vdscrypter.utils.conversions import get_microspf_from_fps
 
 PATH_TO_VDUB = r'c:\users\oscillot\downloads\vdub\vdub64.exe'
@@ -12,8 +11,7 @@ PATH_TO_IM = r'C:\Program Files\ImageMagick-6.8.9-Q16\convert'
 
 @view_config(route_name='preview', renderer='json')
 def preview(request):
-    tmp_dir = tempfile.mkdtemp(prefix="vdscrypter_")
-    print tmp_dir
+    print TEMP_DIR
     try:
         # print 'got preview request'
         print request.POST.__dict__
@@ -26,7 +24,7 @@ def preview(request):
         loop = request.POST.get('loop')
         repeat = request.POST.get('repeat', '1')
 
-        forward_avi = os.path.join(tmp_dir, 'forward.avi')
+        forward_avi = os.path.join(TEMP_DIR, 'forward.avi')
         #render the gif forward and resize/letterbox
         sylia = 'VirtualDub.Open(U"%s");\n' % full_path
         sylia += 'VirtualDub.video.SetFrameRate(%s, 1);\n' % \
@@ -40,7 +38,7 @@ def preview(request):
             # sylia += 'VirtualDub.video.filters.Add("resize");\n'
             # sylia += 'VirtualDub.video.filters.instance[1].Config(800,450,0,4,3,0,320,240,4,3,0,4,1,0x000000);\n'
         sylia += 'VirtualDub.SaveAVI(U"%s");' % forward_avi
-        tmp_file = os.path.join(tmp_dir, "vdtempforward.script")
+        tmp_file = os.path.join(TEMP_DIR, "vdtempforward.script")
         with open(tmp_file, 'w') as fp:
             print sylia
             fp.write(sylia)
@@ -50,9 +48,9 @@ def preview(request):
 
         #conditionally reverse and render a reverse version
         if bounce == 'true':
-            reversed_gif = os.path.join(tmp_dir, 'reversed.gif')
-            reversed_avi = os.path.join(tmp_dir, 'reversed.avi')
-            bounced_avi = os.path.join(tmp_dir, 'bounced.avi')
+            reversed_gif = os.path.join(TEMP_DIR, 'reversed.gif')
+            reversed_avi = os.path.join(TEMP_DIR, 'reversed.avi')
+            bounced_avi = os.path.join(TEMP_DIR, 'bounced.avi')
             subp = subprocess.Popen(
                 '%s "%s" -coalesce -reverse -quiet '
                 '-layers OptimizePlus  -loop 0 %s' % (PATH_TO_IM,
@@ -71,7 +69,7 @@ def preview(request):
                 # sylia += 'VirtualDub.video.filters.Add("resize");\n'
                 # sylia += 'VirtualDub.video.filters.instance[1].Config(800,450,0,4,3,0,320,240,4,3,0,4,1,0x000000);\n'
             sylia += 'VirtualDub.SaveAVI(U"%s");' % reversed_avi
-            tmp_file = os.path.join(tmp_dir, "vdtempreverse.script")
+            tmp_file = os.path.join(TEMP_DIR, "vdtempreverse.script")
             with open(tmp_file, 'w') as fp:
                 print sylia
                 fp.write(sylia)
@@ -81,7 +79,7 @@ def preview(request):
             sylia = 'VirtualDub.Open(U"%s");\n' % forward_avi
             sylia += 'VirtualDub.Append(U"%s");\n' % reversed_avi
             sylia += 'VirtualDub.SaveAVI(U"%s");\n' % bounced_avi
-            tmp_file = os.path.join(tmp_dir, "vdtempbounce.script")
+            tmp_file = os.path.join(TEMP_DIR, "vdtempbounce.script")
             with open(tmp_file, 'w') as fp:
                 print sylia
                 fp.write(sylia)
@@ -91,13 +89,13 @@ def preview(request):
             previewer = bounced_avi
 
         if loop == 'true' and int(repeat) > 1:
-            looped_avi = os.path.join(tmp_dir, 'looped.avi')
+            looped_avi = os.path.join(TEMP_DIR, 'looped.avi')
             sylia = 'VirtualDub.Open(U"%s");\n' % previewer
             for r in range(int(repeat) - 1):
                 sylia += 'VirtualDub.Append(U"%s");\n' % previewer
             sylia += 'VirtualDub.SaveAVI(U"%s");\n' % looped_avi
 
-            tmp_file = os.path.join(tmp_dir, "vdtemplooped.script")
+            tmp_file = os.path.join(TEMP_DIR, "vdtemplooped.script")
             with open(tmp_file, 'w') as fp:
                 print sylia
                 fp.write(sylia)
@@ -105,10 +103,12 @@ def preview(request):
             subp.communicate()
 
             previewer = looped_avi
-
-        os.system("start %s" % previewer)
+        print previewer
+        # os.system("start %s" % previewer)
+        subprocess.Popen('C:\\Program Files (x86)\\Combined Community Codec Pack\\MPC\\mpc-hc.exe %s' % previewer)
 
     except Exception as e:
-        print e.__class__
+        print e
+        print e.__class__.__name__
         print e.message
     return {}

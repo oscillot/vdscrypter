@@ -124,10 +124,10 @@ function printData(data, status, xhr){
 
 function alertSavePath(data, status, xhr){
     alert("File was rendered to: " + data.output);
-    $.ajax({
-        type: "GET",
-        url: "http://127.0.0.1:6543/cleanup"
-    })
+##    $.ajax({
+##        type: "GET",
+##        url: "http://127.0.0.1:6543/cleanup"
+##    })
 }
 
 function render(){

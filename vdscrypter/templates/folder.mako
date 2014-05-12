@@ -84,11 +84,19 @@ function logError(error, xhr){
 
 function preview(i, preview, async){
     console.log(i);
+    var repeat = $("#repeat_" + i + "").val();
+    if (parseInt(repeat) < 1 || parseInt(repeat > 100)){
+        alert('Invalid: Must be one of 1-25');
+        return false;
+    }
+    var fps = $("#fps").val();
+    if (parseInt(fps) < 1 || parseInt(fps > 100)){
+        alert('Invalid: Must be one of 1-25');
+        return false;
+    }
     var full_path = $("#full_path_" + i + "").val();
     var loop = $("#loop_" + i + "").is(":checked");
-    var repeat = $("#repeat_" + i + "").val();
     var bounce = $("#bounce_" + i + "").is(":checked");
-    var fps = $("#fps").val();
     var resize = $("input[type='radio'][name='resize_" + i + "']:checked").val();
     $.ajax({
         type: "POST",
@@ -122,6 +130,10 @@ function render(){
     rendered = [];
     var forms = $(".preview_form");
     var fps = $('#fps').val();
+    if (parseInt(fps) < 1 || parseInt(fps > 100)){
+        alert('Invalid: Must be one of 1-25');
+        return false;
+    }
     var output = $('#output').val();
 
     console.log(forms);

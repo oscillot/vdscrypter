@@ -10,7 +10,7 @@ PATH_TO_VDUB = r'c:\users\oscillot\downloads\vdub\vdub64.exe'
 def render(request):
     list_to_render = request.POST.getall('rendered[]')
     folder_path = request.POST.get('output', '')
-    if folder_path == '':
+    if folder_path == '' or not os.path.exists(folder_path):
         folder_path = request.POST.get('folder_path', '')
     if folder_path.endswith(os.path.sep):
         folder_path = folder_path[:-1]

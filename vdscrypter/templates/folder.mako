@@ -11,6 +11,14 @@
             </form>
     %for i, f in enumerate(found):
         <div id="form_container_${i}" style="white-space: nowrap;">
+            <div>
+                %if i != 0:
+                    <a href="javascript:move_me_up(${i});">Up</a>
+                %endif
+                %if i < len(found) - 1:
+                    <a href="javascript:move_me_down(${i});">Down</a>
+                %endif
+            </div>
             <img src="${f[0]}" style="height:225px;max-width:400px;width: expression(this.width > 400 ? 400: true);"/>
             <div style="display: inline-block; vertical-align: top;">
 
@@ -30,7 +38,6 @@
                             <input id="repeat_${i}" name="repeat_${i}" class="element text small" type="text" maxlength="255" value="1"/>
                         </div>
                         <p class="guidelines" id="guide_1_${i}">
-##                            <small>How many times to loop the video</small>
                         </p>
                     </li>
                     <li id="li_3_${i}">
@@ -40,7 +47,6 @@
                             <label class="choice" for="bounce_${i}">Enable</label>
 		                </span>
                         <p class="guidelines" id="guide_3_${i}">
-##                            <small>Bounce plays the asset once forwards and once in reverse. This has an implicit loop.</small>
                         </p>
                     </li>
 
@@ -52,7 +58,6 @@
                             <label class="choice" for="resize_${i}"></label>
 		                </span>
                         <p class="guidelines" id="guide_5_${i}">
-##                            <small>Whether to stretch or to letterbox for the resize that must occur.</small>
                         </p>
                     </li>
                     <li class="buttons">
@@ -62,20 +67,25 @@
                 </ul>
             </form>
         </div>
+    </div>
     %endfor
             <form id="render_form" method="post" action="javascript:render();">
                 Output folder: <input id="output" name= "output" type="text" maxlength="2048" value=""/> (leave blank to save at the root).
                 <input id="render" class="button_text" type="submit" name="Render" value="Render"/>
             </form>
-    </div>
-
-
-
-
 
 <script>
 var count = ${len(found)};
 var rendered = [];
+
+function move_me_up(i){
+    $("#form_container_" + i + "").prev().insertAfter($("#form_container_" + i + ""));
+}
+
+function move_me_down(i){
+    $("#form_container_" + i + "").next().insertBefore($("#form_container_" + i + ""));
+}
+
 function returnJson(data, status, xhr){
     console.log(data);
     rendered.push(data.rendered);

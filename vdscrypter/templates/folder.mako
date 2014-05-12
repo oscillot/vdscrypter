@@ -9,9 +9,10 @@
                 FPS: <input id="fps" name="fps" type="text" maxlength="255" value="30"/> This value is GLOBAL!
                 <input id="fps_hidden" style="display:none;" class="button_text" type="submit" name="hidden" value="hidden"/>
             </form>
+    <div id="outer_sort">
     %for i, f in enumerate(found):
         <div id="form_container_${i}" style="white-space: nowrap;">
-            <img src="${f[0]}" style="height:225px;max-width:400px;width: expression(this.width > 400 ? 400: true);"/>
+            <img src="${f[0]}" style="height:225px;max-width:400px;width: expression(this.width > 400 ? 400: true);" class="img_cls"/>
             <div style="display: inline-block; vertical-align: top;">
 
             <form id="form_${i}" method="post" action="javascript:preview(${i}, true, true);" class="preview_form">
@@ -63,6 +64,7 @@
             </form>
         </div>
     %endfor
+    </div>
             <form id="render_form" method="post" action="javascript:render();">
                 Output folder: <input id="output" name= "output" type="text" maxlength="2048" value=""/> (leave blank to save at the root).
                 <input id="render" class="button_text" type="submit" name="Render" value="Render"/>
@@ -70,12 +72,30 @@
     </div>
 
 
-
-
-
 <script>
 var count = ${len(found)};
 var rendered = [];
+
+$(document).ready(function(){
+    $("body").sortable();
+    $("body").disableSelection();
+
+    $(".img_cls").draggable({
+        containment: "#container",
+        helper: 'clone',
+        revert: 'invalid'
+    });
+
+    $("body", "#outer_sort").droppable({
+		hoverClass : 'ui-state-highlight',
+        accept: ":not(.ui-sortable-helper)",
+		drop : function(ev, ui) {
+			$(ui.draggable).clone().appendTo(this);
+			$(ui.draggable).remove();
+		}
+	});
+});
+
 function returnJson(data, status, xhr){
     console.log(data);
     rendered.push(data.rendered);
@@ -153,6 +173,7 @@ function render(){
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="//oss.maxcdn.com/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 <script src="//oss.maxcdn.com/libs/twitter-bootstrap/3.0.3/js/bootstrap.min.js"></script>
 </body>
 </html>

@@ -20,10 +20,10 @@ def preview(request):
         #get our attributes
         full_path = request.POST.get('full_path')
         orig_name = full_path.rsplit('\\', 1)[1]
-        fps = request.POST.get('fps')
         resize = request.POST.get('resize', 'fill')
         bounce = request.POST.get('bounce')
         loop = request.POST.get('loop')
+        fps = request.POST.get('fps', '30')
         repeat = request.POST.get('repeat', '1')
         preview = request.POST.get('preview', 'false')
 

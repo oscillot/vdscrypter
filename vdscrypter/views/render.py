@@ -1,5 +1,4 @@
 import os
-import shutil
 import subprocess
 from pyramid.view import view_config
 
@@ -10,7 +9,9 @@ PATH_TO_VDUB = r'c:\users\oscillot\downloads\vdub\vdub64.exe'
 @view_config(route_name='render', renderer='json')
 def render(request):
     list_to_render = request.POST.getall('rendered[]')
-    folder_path = request.POST.get('folder_path')
+    folder_path = request.POST.get('output', '')
+    if folder_path == '':
+        folder_path = request.POST.get('folder_path', '')
     if folder_path.endswith(os.path.sep):
         folder_path = folder_path[:-1]
     avi_name = folder_path + '.avi'
@@ -26,6 +27,5 @@ def render(request):
         fp.write(sylia)
     subp = subprocess.Popen(r'%s /i %s' % (PATH_TO_VDUB, tmp_file))
     subp.communicate()
-    subprocess.Popen('C:\\Program Files (x86)\\Combined Community Codec Pack\\MPC\\mpc-hc.exe %s' % avi_name)
+    subprocess.Popen('"C:\\Program Files (x86)\\Combined Community Codec Pack\\MPC\\mpc-hc.exe" "%s"' % avi_name)
     return {'output': avi_name}
-

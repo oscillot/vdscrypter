@@ -5,6 +5,10 @@
 </head>
 
 <body>
+            <form id="fps_form" method="post" action="javascript:void(0);">
+                FPS: <input id="fps" name="fps" type="text" maxlength="255" value="30"/> This value is GLOBAL!
+                <input id="fps_hidden" style="display:none;" class="button_text" type="submit" name="hidden" value="hidden"/>
+            </form>
     %for i, f in enumerate(found):
         <div id="form_container_${i}" style="white-space: nowrap;">
             <img src="${f[0]}" style="height:225px;max-width:400px;width: expression(this.width > 400 ? 400: true);"/>
@@ -51,17 +55,6 @@
 ##                            <small>Whether to stretch or to letterbox for the resize that must occur.</small>
                         </p>
                     </li>
-
-                    <li>
-                        <label class="description" for="element_4">FPS</label>
-                        <span>
-			                <input id="fps_${i}" name="fps_${i}" class="element" type="text" maxlength="255" value="30"/>
-                            <label class="choice" for="fps_${i}">Enable</label>
-		                </span>
-                        <p class="guidelines" id="guide_4_${i}">
-##                            <small>How many frames to play per second. May need to tweak on a per-gif basis.</small>
-                        </p>
-                    </li>
                     <li class="buttons">
                         <input type="hidden" name="form_id" value="preview_${i}"/>
                         <input id="saveForm_${i}" class="button_text" type="submit" name="submit" value="Preview"/>
@@ -71,6 +64,7 @@
         </div>
     %endfor
             <form id="render_form" method="post" action="javascript:render();">
+                Output folder: <input id="output" name= "output" type="text" maxlength="2048" value=""/> (leave blank to save at the root).
                 <input id="render" class="button_text" type="submit" name="Render" value="Render"/>
             </form>
     </div>
@@ -98,7 +92,7 @@ function preview(i, preview, async){
     var loop = $("#loop_" + i + "").is(":checked");
     var repeat = $("#repeat_" + i + "").val();
     var bounce = $("#bounce_" + i + "").is(":checked");
-    var fps = $("#fps_" + i + "").val();
+    var fps = $("#fps").val();
     var resize = $("input[type='radio'][name='resize_" + i + "']:checked").val();
     $.ajax({
         type: "POST",
@@ -131,6 +125,9 @@ function render(){
 ##    reset renders in case previews has populated it at all
     rendered = [];
     var forms = $(".preview_form");
+    var fps = $('#fps').val();
+    var output = $('#output').val();
+
     console.log(forms);
     for (var i=0;i<forms.length;i++){
         var raw_id = forms[i].attributes['id'].value.substring('form_'.length);
@@ -140,7 +137,8 @@ function render(){
         type: "POST",
         url: "/render",
         data: {rendered: rendered,
-               folder_path: "${folder_path.replace('\\', '\\\\')}"},
+               folder_path: "${folder_path.replace('\\', '\\\\')}",
+               output: output},
         dataType:'json',
         success: alertSavePath,
         error: logError,

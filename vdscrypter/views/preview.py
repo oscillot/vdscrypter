@@ -38,8 +38,8 @@ def preview(request):
         elif resize == 'box':
             sylia += 'VirtualDub.video.filters.Add("resize");\n'
             sylia += 'VirtualDub.video.filters.instance[0].Config(100,100,1,4,3,1,320,240,16,9,3,4,1,0x000000);\n'
-            # sylia += 'VirtualDub.video.filters.Add("resize");\n'
-            # sylia += 'VirtualDub.video.filters.instance[1].Config(800,450,0,4,3,0,320,240,4,3,0,4,1,0x000000);\n'
+            sylia += 'VirtualDub.video.filters.Add("resize");\n'
+            sylia += 'VirtualDub.video.filters.instance[1].Config(800,450,0,4,3,0,320,240,4,3,0,4,1,0x000000);\n'
         sylia += 'VirtualDub.SaveAVI(U"%s");' % forward_avi
         tmp_file = os.path.join(TEMP_DIR, "%s_vdtempforward.script" % orig_name)
         with open(tmp_file, 'w') as fp:
@@ -69,8 +69,8 @@ def preview(request):
             elif resize == 'box':
                 sylia += 'VirtualDub.video.filters.Add("resize");\n'
                 sylia += 'VirtualDub.video.filters.instance[0].Config(100,100,1,4,3,1,320,240,16,9,3,4,1,0x000000);\n'
-                # sylia += 'VirtualDub.video.filters.Add("resize");\n'
-                # sylia += 'VirtualDub.video.filters.instance[1].Config(800,450,0,4,3,0,320,240,4,3,0,4,1,0x000000);\n'
+                sylia += 'VirtualDub.video.filters.Add("resize");\n'
+                sylia += 'VirtualDub.video.filters.instance[1].Config(800,450,0,4,3,0,320,240,4,3,0,4,1,0x000000);\n'
             sylia += 'VirtualDub.SaveAVI(U"%s");' % reversed_avi
             tmp_file = os.path.join(TEMP_DIR, "%s_vdtempreverse.script" % orig_name)
             with open(tmp_file, 'w') as fp:

@@ -32,4 +32,5 @@ def folder(request):
     config.add_static_view('folder', folder_path, cache_max_age=3600)
     config.commit()
 
-    return {'found': found}
+    return {'found': found,
+            'folder_path': folder_path}

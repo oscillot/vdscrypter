@@ -5,13 +5,12 @@
 </head>
 
 <body>
-    <div style="display:none;" id="count" class="${len(found)}"></div>
     %for i, f in enumerate(found):
         <div id="form_container_${i}" style="white-space: nowrap;">
             <img src="${f[0]}" style="height:225px;max-width:400px;width: expression(this.width > 400 ? 400: true);"/>
             <div style="display: inline-block; vertical-align: top;">
 
-            <form id="form_${i}" method="post" action="javascript:preview(${i}, 'true'); return false;">
+            <form id="form_${i}" method="post" action="javascript:preview(${i}, true, true);" class="preview_form">
                 <input id="full_path_${i}" name="full_path_${i}" class="element" type="text" value="${f[1]}" style="display:none;"/>
                 <ul>
                     <li id="li_2_${i}">
@@ -81,9 +80,10 @@
 
 
 <script>
+var count = ${len(found)};
 var rendered = [];
 function returnJson(data, status, xhr){
-    console.log(data.rendered);
+    console.log(data);
     rendered.push(data.rendered);
 }
 
@@ -92,7 +92,7 @@ function logError(error, xhr){
     return null
 }
 
-function preview(i, preview){
+function preview(i, preview, async){
     console.log(i);
     var full_path = $("#full_path_" + i + "").val();
     var loop = $("#loop_" + i + "").is(":checked");
@@ -113,7 +113,8 @@ function preview(i, preview){
         },
         dataType:'json',
         success: returnJson,
-        error: logError
+        error: logError,
+        async: async
     });
 }
 
@@ -122,25 +123,28 @@ function printData(data, status, xhr){
     console.log(data);
 }
 
+function alertSavePath(data, status, xhr){
+    alert("File was rendered to: " + data.output);
+}
+
 function render(){
-    ##previews are coming in async...
-    ##possible to nest each one as a callback recursively?
-    ##need to make sure all have returned prior to hitting /render
-    ##need to preserve order above all so it is draggable later
-    var count = $('#count').attr('class');
-##    console.log(count);
-    //reset renders in case previews has populated it at all
+##    reset renders in case previews has populated it at all
     rendered = [];
-    for (r=0;r<count;r++){
-        preview(r, 'false');
-        }
+    var forms = $(".preview_form");
+    console.log(forms);
+    for (var i=0;i<forms.length;i++){
+        var raw_id = forms[i].attributes['id'].value.substring('form_'.length);
+        preview(raw_id, false, false);
+    }
     $.ajax({
         type: "POST",
         url: "/render",
-        data: {rendered: rendered},
+        data: {rendered: rendered,
+               folder_path: "${folder_path.replace('\\', '\\\\')}"},
         dataType:'json',
-        success: printData,
-        error: logError
+        success: alertSavePath,
+        error: logError,
+        async: true
     });
 }
 

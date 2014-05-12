@@ -11,7 +11,7 @@
             <img src="${f[0]}" style="height:225px;max-width:400px;width: expression(this.width > 400 ? 400: true);"/>
             <div style="display: inline-block; vertical-align: top;">
 
-            <form id="form_${i}" method="post" action="javascript:preview(${i}); return false;">
+            <form id="form_${i}" method="post" action="javascript:preview(${i}, 'true'); return false;">
                 <input id="full_path_${i}" name="full_path_${i}" class="element" type="text" value="${f[1]}" style="display:none;"/>
                 <ul>
                     <li id="li_2_${i}">
@@ -69,18 +69,30 @@
                     </li>
                 </ul>
             </form>
-            <form id="render_form" method="post" action="javascript:render(); return false;">
-                <input id="render" class="button_text" type="submit" name="Render" value="Render"/>
-            </form>
-            </div>
-            </div>
         </div>
     %endfor
+            <form id="render_form" method="post" action="javascript:render();">
+                <input id="render" class="button_text" type="submit" name="Render" value="Render"/>
+            </form>
+    </div>
+
+
 
 
 
 <script>
-function preview(i){
+var rendered = [];
+function returnJson(data, status, xhr){
+    console.log(data.rendered);
+    rendered.push(data.rendered);
+}
+
+function logError(error, xhr){
+    console.log(error);
+    return null
+}
+
+function preview(i, preview){
     console.log(i);
     var full_path = $("#full_path_" + i + "").val();
     var loop = $("#loop_" + i + "").is(":checked");
@@ -96,17 +108,40 @@ function preview(i){
                repeat: repeat,
                bounce: bounce,
                fps: fps,
-               resize: resize
+               resize: resize,
+               preview: preview
         },
-        dataType:'json'
+        dataType:'json',
+        success: returnJson,
+        error: logError
     });
 }
 
-function render(){
-    var count = $('#count').getAttribute('class');
-    for (r=0;r<count+1;r++){
+function printData(data, status, xhr){
 
-    }
+    console.log(data);
+}
+
+function render(){
+    ##previews are coming in async...
+    ##possible to nest each one as a callback recursively?
+    ##need to make sure all have returned prior to hitting /render
+    ##need to preserve order above all so it is draggable later
+    var count = $('#count').attr('class');
+##    console.log(count);
+    //reset renders in case previews has populated it at all
+    rendered = [];
+    for (r=0;r<count;r++){
+        preview(r, 'false');
+        }
+    $.ajax({
+        type: "POST",
+        url: "/render",
+        data: {rendered: rendered},
+        dataType:'json',
+        success: printData,
+        error: logError
+    });
 }
 
 </script>

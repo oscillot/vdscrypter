@@ -90,7 +90,6 @@ def preview(request):
 
             previewer = bounced_avi
 
-        print 4
         if loop == 'true' and int(repeat) > 1:
             looped_avi = os.path.join(tmp_dir, 'looped.avi')
             sylia = 'VirtualDub.Open(U"%s");\n' % previewer
@@ -109,9 +108,7 @@ def preview(request):
 
         os.system("start %s" % previewer)
 
-        print 5
     except Exception as e:
         print e.__class__
         print e.message
-    print 6
     return {}

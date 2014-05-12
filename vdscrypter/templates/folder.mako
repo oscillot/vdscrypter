@@ -83,15 +83,15 @@ function logError(error, xhr){
 }
 
 function preview(i, preview, async){
-    console.log(i);
+##    console.log(i);
     var repeat = $("#repeat_" + i + "").val();
-    if (parseInt(repeat) < 1 || parseInt(repeat > 100)){
-        alert('Invalid: Must be one of 1-25');
+    if (repeat < 1 || repeat > 32){
+        alert('Invalid: Must be one of 1-32');
         return false;
     }
     var fps = $("#fps").val();
-    if (parseInt(fps) < 1 || parseInt(fps > 100)){
-        alert('Invalid: Must be one of 1-25');
+    if (fps < 1 || fps > 300){
+        alert('Invalid: Must be one of 1-300');
         return false;
     }
     var full_path = $("#full_path_" + i + "").val();
@@ -117,7 +117,6 @@ function preview(i, preview, async){
 }
 
 function printData(data, status, xhr){
-
     console.log(data);
 }
 
@@ -130,8 +129,8 @@ function render(){
     rendered = [];
     var forms = $(".preview_form");
     var fps = $('#fps').val();
-    if (parseInt(fps) < 1 || parseInt(fps > 100)){
-        alert('Invalid: Must be one of 1-25');
+    if (parseInt(fps) < 1 || parseInt(fps > 300)){
+        alert('Invalid: Must be one of 1-300');
         return false;
     }
     var output = $('#output').val();

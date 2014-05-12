@@ -1,5 +1,6 @@
 import tempfile
 from pyramid.config import Configurator
+import webbrowser
 
 
 def main(global_config, **settings):
@@ -16,3 +17,4 @@ def main(global_config, **settings):
     return config.make_wsgi_app()
 
 TEMP_DIR = tempfile.mkdtemp(prefix="vdscrypter_")
+webbrowser.open_new_tab('http://127.0.0.1:6543')

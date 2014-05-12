@@ -15,7 +15,7 @@ def preview(request):
     previewer = None
     try:
         # print 'got preview request'
-        print request.POST.__dict__
+        # print request.POST.__dict__
 
         #get our attributes
         full_path = request.POST.get('full_path')

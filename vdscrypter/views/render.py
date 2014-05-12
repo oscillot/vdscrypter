@@ -9,6 +9,7 @@ PATH_TO_VDUB = r'c:\users\oscillot\downloads\vdub\vdub64.exe'
 @view_config(route_name='render', renderer='json')
 def render(request):
     list_to_render = request.POST.getall('rendered[]')
+    compress = request.POST.get('compress', 'true')
     folder_path = request.POST.get('output', '')
     if folder_path == '' or not os.path.exists(folder_path):
         folder_path = request.POST.get('folder_path', '')
@@ -20,6 +21,9 @@ def render(request):
     sylia = 'VirtualDub.Open(U"%s");\n' % first
     for each in rest:
         sylia += 'VirtualDub.Append(U"%s");\n' % each
+    if compress == 'true':
+        sylia += 'VirtualDub.video.SetMode(1);\n'
+        sylia += 'VirtualDub.video.SetCompression(0x64697678,0,10000,0);\n'
     sylia += 'VirtualDub.SaveAVI(U"%s");\n' % avi_name
     tmp_file = os.path.join(TEMP_DIR, "output_vdtemprender.script")
     with open(tmp_file, 'w') as fp:

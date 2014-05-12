@@ -1,5 +1,6 @@
 import os
 import subprocess
+import traceback
 from pyramid.view import view_config
 
 from vdscrypter import TEMP_DIR
@@ -112,8 +113,6 @@ def preview(request):
             subprocess.Popen('C:\\Program Files (x86)\\Combined Community Codec Pack\\MPC\\mpc-hc.exe %s' % previewer)
 
     except Exception as e:
-        print e
-        print e.__class__.__name__
-        print e.message
+        traceback.print_exc()
 
     return {'rendered': previewer}

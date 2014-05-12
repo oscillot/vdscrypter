@@ -1,5 +1,3 @@
-import os
-import shutil
 import tempfile
 import webbrowser
 from pyramid.config import Configurator
@@ -15,16 +13,11 @@ def main(global_config, **settings):
     config.add_route('folder', '/folder')
     config.add_route('preview', '/preview')
     config.add_route('render', '/render')
+    config.add_route('cleanup', '/cleanup')
     config.scan()
     return config.make_wsgi_app()
 
 TEMP_DIR = tempfile.mkdtemp(prefix="vdscrypter_")
-
-#clean up old
-for root, dirs, files in os.walk('C:\\Users\\Oscillot\\AppData\\Local\\Temp'):
-    for d in dirs:
-        if d.startswith('vdscrypter'):
-            shutil.rmtree(os.path.join(root, d))
 
 webbrowser.open_new_tab('http://127.0.0.1:6543')
 

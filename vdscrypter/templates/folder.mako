@@ -62,8 +62,10 @@
         </div>
     </div>
     %endfor
+        <br>
             <form id="render_form" method="post" action="javascript:render();">
                 Output folder: <input id="output" name= "output" type="text" maxlength="2048" value=""/> (leave blank to save at the root).
+                <input id="compress" name="compress" class="element checkbox " type="checkbox" checked="1"/>Compress with Xvid? (You probably want this.)
                 <input id="render" class="button_text" type="submit" name="Render" value="Render"/>
             </form>
     </div>
@@ -122,12 +124,17 @@ function printData(data, status, xhr){
 
 function alertSavePath(data, status, xhr){
     alert("File was rendered to: " + data.output);
+    $.ajax({
+        type: "GET",
+        url: "http://127.0.0.1:6543/cleanup"
+    })
 }
 
 function render(){
 ##    reset renders in case previews has populated it at all
     rendered = [];
     var forms = $(".preview_form");
+    var compress = $("#compress").is(":checked");
     var fps = $('#fps').val();
     if (parseInt(fps) < 1 || parseInt(fps > 300)){
         alert('Invalid: Must be one of 1-300');
@@ -145,11 +152,12 @@ function render(){
         url: "/render",
         data: {rendered: rendered,
                folder_path: "${folder_path.replace('\\', '\\\\')}",
-               output: output},
+               output: output,
+               compress: compress},
         dataType:'json',
         success: alertSavePath,
         error: logError,
-        async: true
+        async: false
     });
 }
 

@@ -9,17 +9,10 @@
                 FPS: <input id="fps" name="fps" type="text" maxlength="255" value="30"/> This value is GLOBAL!
                 <input id="fps_hidden" style="display:none;" class="button_text" type="submit" name="hidden" value="hidden"/>
             </form>
+    <div id="outer_sort">
     %for i, f in enumerate(found):
-        <div id="form_container_${i}" style="white-space: nowrap;">
-            <div>
-                %if i != 0:
-                    <a href="javascript:move_me_up(${i});">Up</a>
-                %endif
-                %if i < len(found) - 1:
-                    <a href="javascript:move_me_down(${i});">Down</a>
-                %endif
-            </div>
-            <img src="${f[0]}" style="height:225px;max-width:400px;width: expression(this.width > 400 ? 400: true);"/>
+        <div id="form_container_${i}" style="white-space: nowrap;position: relative;" class="sortable">
+            <img src="${f[0]}" style="height:225px;max-width:400px;width: expression(this.width > 400 ? 400: true);" class="img_cls"/>
             <div style="display: inline-block; vertical-align: top;">
 
             <form id="form_${i}" method="post" action="javascript:preview(${i}, true, true);" class="preview_form">
@@ -73,18 +66,11 @@
                 Output folder: <input id="output" name= "output" type="text" maxlength="2048" value=""/> (leave blank to save at the root).
                 <input id="render" class="button_text" type="submit" name="Render" value="Render"/>
             </form>
+    </div>
 
 <script>
 var count = ${len(found)};
 var rendered = [];
-
-function move_me_up(i){
-    $("#form_container_" + i + "").prev().insertAfter($("#form_container_" + i + ""));
-}
-
-function move_me_down(i){
-    $("#form_container_" + i + "").next().insertBefore($("#form_container_" + i + ""));
-}
 
 function returnJson(data, status, xhr){
     console.log(data);
@@ -163,6 +149,14 @@ function render(){
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="//oss.maxcdn.com/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 <script src="//oss.maxcdn.com/libs/twitter-bootstrap/3.0.3/js/bootstrap.min.js"></script>
+
+<script>
+$(document).ready(function(){
+    $('#outer_sort').sortable({placeholder: "ui-state-highlight",helper:'clone'});
+})
+</script>
+
 </body>
 </html>

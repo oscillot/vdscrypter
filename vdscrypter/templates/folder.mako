@@ -14,10 +14,10 @@
                 <input id="full_path_${i}" name="full_path_${i}" class="element" type="text" value="${f[1]}" style="display:none;"/>
                 <ul>
                     <li id="li_2_${i}">
-                        <label class="description" for="element_2">Loop </label>
+                        <label class="description" for="element_2"></label>
 		                <span>
 			                <input id="loop_${i}" name="loop_${i}" class="element checkbox" type="checkbox"/>
-                            <label class="choice" for="loop_${i}">Enable</label>
+                            <label class="choice" for="loop_${i}">Enable looping</label>
                         </span>
                     </li>
                     <li id="li_1">
@@ -26,7 +26,7 @@
                             <input id="repeat_${i}" name="repeat_${i}" class="element text small" type="text" maxlength="255" value="1"/>
                         </div>
                         <p class="guidelines" id="guide_1_${i}">
-                            <small>How many times to loop the video</small>
+##                            <small>How many times to loop the video</small>
                         </p>
                     </li>
                     <li id="li_3_${i}">
@@ -36,21 +36,21 @@
                             <label class="choice" for="bounce_${i}">Enable</label>
 		                </span>
                         <p class="guidelines" id="guide_3_${i}">
-                            <small>Bounce plays the asset once forwards and once in reverse. This has an implicit loop.</small>
+##                            <small>Bounce plays the asset once forwards and once in reverse. This has an implicit loop.</small>
                         </p>
                     </li>
 
-##                    <li>
-##                        <label class="resize_${i}" for="element_5">Resize technique</label>
-##                        <span>
-##			                <input id="resize_${i}" name="resize_${i}" class="element" type="radio" value="box">Box
-##			                <input id="resize_${i}" name="resize_${i}" class="element" type="radio" value="stretch">Fill
-##                            <label class="choice" for="resize_${i}">Must Choose 1</label>
-##		                </span>
-##                        <p class="guidelines" id="guide_5_${i}">
+                    <li>
+                        <label class="resize_${i}" for="element_5">Resize technique</label>
+                        <span>
+			                <input name="resize_${i}" class="element" type="radio" value="box" checked="1">Box
+			                <input name="resize_${i}" class="element" type="radio" value="fill">Fill
+                            <label class="choice" for="resize_${i}"></label>
+		                </span>
+                        <p class="guidelines" id="guide_5_${i}">
 ##                            <small>Whether to stretch or to letterbox for the resize that must occur.</small>
-##                        </p>
-##                    </li>
+                        </p>
+                    </li>
 
                     <li>
                         <label class="description" for="element_4">FPS</label>
@@ -59,7 +59,7 @@
                             <label class="choice" for="fps_${i}">Enable</label>
 		                </span>
                         <p class="guidelines" id="guide_4_${i}">
-                            <small>How many frames to play per second. May need to tweak on a per-gif basis.</small>
+##                            <small>How many frames to play per second. May need to tweak on a per-gif basis.</small>
                         </p>
                     </li>
                     <li class="buttons">
@@ -82,7 +82,7 @@ function preview(i){
     var repeat = $("#repeat_" + i + "").val();
     var bounce = $("#bounce_" + i + "").is(":checked");
     var fps = $("#fps_" + i + "").val();
-##    var resize = $("#resize_" + i + "").val();
+    var resize = $("input[type='radio'][name='resize_" + i + "']:checked").val();
     $.ajax({
         type: "POST",
         url: "/preview",
@@ -90,8 +90,8 @@ function preview(i){
                loop: loop,
                repeat: repeat,
                bounce: bounce,
-               fps: fps
-##               resize: resize
+               fps: fps,
+               resize: resize
         },
         dataType:'json'
     });

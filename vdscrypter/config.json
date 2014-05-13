@@ -1,6 +1,6 @@
 {
-    "virtual_dub_directory": "c:\\users\\oscillot\\downloads\\vdub",
-    "image_magick_directory": "C:\\Program Files\\ImageMagick-6.8.9-Q16",
+    "virtualdub_directory": "c:\\users\\oscillot\\downloads\\vdub",
+    "imagemagick_directory": "C:\\Program Files\\ImageMagick-6.8.9-Q16",
     "media_player_executable":
         "C:\\Program Files (x86)\\Combined Community Codec Pack\\MPC\\mpc-hc.exe"
 }

@@ -33,7 +33,7 @@ def render(request):
     with open(tmp_file, 'w') as fp:
         print sylia
         fp.write(sylia)
-    subp = subprocess.Popen(r'%s /i %s' % (PATH_TO_VDUB, tmp_file))
+    subp = subprocess.Popen(r'"%s" /i "%s"' % (PATH_TO_VDUB, tmp_file))
     subp.communicate()
     subprocess.Popen('"%s" "%s"' % (MEDIA_PLAYER, avi_name))
     return {'output': avi_name}

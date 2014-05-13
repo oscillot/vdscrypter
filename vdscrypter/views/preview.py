@@ -1,4 +1,5 @@
 import os
+import shutil
 import subprocess
 import traceback
 from pyramid.view import view_config
@@ -27,11 +28,17 @@ def preview(request):
         reverse = request.POST.get('reverse')
         preview = request.POST.get('preview', 'false')
 
+        if ' ' in full_path:
+            new_path = os.path.join(TEMP_DIR, orig_name.replace(' ', '_'))
+            shutil.copy(full_path, new_path)
+            full_path = new_path
+            orig_name = full_path.rsplit('\\', 1)[1]
+
         if reverse == 'true':
             backwards_gif = os.path.join(TEMP_DIR, '%s_backwards.gif' % orig_name)
             subp = subprocess.Popen(
-                '%s "%s" -coalesce -reverse -quiet '
-                '-layers OptimizePlus  -loop 0 %s' % (
+                '"%s" "%s" -coalesce -reverse -quiet '
+                '-layers OptimizePlus  -loop 0 "%s"' % (
                     os.path.join(PATH_TO_IM), full_path,
                     backwards_gif))
             subp.communicate()
@@ -52,7 +59,7 @@ def preview(request):
             sylia += 'VirtualDub.video.filters.instance[0].Config(100,100,1,4,3,1,320,240,16,9,3,4,1,0x000000);\n'
             sylia += 'VirtualDub.video.filters.Add("resize");\n'
             sylia += 'VirtualDub.video.filters.instance[1].Config(800,450,0,4,3,0,320,240,4,3,0,4,1,0x000000);\n'
-        sylia += 'VirtualDub.SaveAVI(U"%s");' % forward_avi
+        sylia += 'VirtualDub.SaveAVI(U"%s");\n' % forward_avi
         tmp_file = os.path.join(TEMP_DIR, "%s_vdtempforward.script" % orig_name)
         with open(tmp_file, 'w') as fp:
             print sylia

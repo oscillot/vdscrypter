@@ -158,10 +158,10 @@ function alertSavePath(data, status, xhr){
 function render(){
 ##    reset renders in case previews has populated it at all
     rendered = [];
-    if (rendered.length == 0){
-        alert("ERROR! Need at least 1 item in the render pipeline!");
-        return;
-    }
+##    if (rendered.length == 0){
+##        alert("ERROR! Need at least 1 item in the render pipeline!");
+##        return;
+##    }
     var forms = $(".preview_form");
     var compress = $("#compress").is(":checked");
     var fps = $('#fps').val();

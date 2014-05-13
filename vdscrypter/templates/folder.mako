@@ -185,8 +185,7 @@ function render(){
                compress: compress},
         dataType:'json',
         success: alertSavePath,
-        error: logError,
-        async: false
+        error: logError
     });
 }
 

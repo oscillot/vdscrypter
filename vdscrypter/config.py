@@ -8,6 +8,6 @@ with open(os.path.join(HERE, 'config.json')) as fp:
 
 config = json.loads(config_data)
 
-PATH_TO_VDUB = config['virtualdub_directory']
-PATH_TO_IM = config['imagemagick_directory']
+PATH_TO_VDUB = os.path.join(config['virtualdub_directory'], 'vdub64.exe')
+PATH_TO_IM = os.path.join(config['imagemagick_directory'], 'convert.exe')
 MEDIA_PLAYER = config['media_player_executable']

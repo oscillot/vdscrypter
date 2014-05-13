@@ -44,9 +44,7 @@ def preview(request):
         with open(tmp_file, 'w') as fp:
             print sylia
             fp.write(sylia)
-        subp = subprocess.Popen(r'%s /i %s' % (os.path.join(PATH_TO_VDUB,
-                                                            'vdub64.exe'),
-                                               tmp_file))
+        subp = subprocess.Popen(r'%s /i %s' % (PATH_TO_VDUB, tmp_file))
         subp.communicate()
         previewer = forward_avi
 
@@ -58,7 +56,7 @@ def preview(request):
             subp = subprocess.Popen(
                 '%s "%s" -coalesce -reverse -quiet '
                 '-layers OptimizePlus  -loop 0 %s' % (
-                    os.path.join(PATH_TO_IM, 'convert.exe'), full_path,
+                    os.path.join(PATH_TO_IM), full_path,
                     reversed_gif))
             subp.communicate()
             sylia = 'VirtualDub.Open(U"%s");\n' % reversed_gif
@@ -77,9 +75,7 @@ def preview(request):
             with open(tmp_file, 'w') as fp:
                 print sylia
                 fp.write(sylia)
-            subp = subprocess.Popen(r'%s /i %s' % (os.path.join(PATH_TO_VDUB,
-                                                                'vdub64.exe'),
-                                                   tmp_file))
+            subp = subprocess.Popen(r'%s /i %s' % (PATH_TO_VDUB, tmp_file))
             subp.communicate()
 
             sylia = 'VirtualDub.Open(U"%s");\n' % forward_avi
@@ -89,9 +85,7 @@ def preview(request):
             with open(tmp_file, 'w') as fp:
                 print sylia
                 fp.write(sylia)
-            subp = subprocess.Popen(r'%s /i %s' % (os.path.join(PATH_TO_VDUB,
-                                                                'vdub64.exe'),
-                                                   tmp_file))
+            subp = subprocess.Popen(r'%s /i %s' % (PATH_TO_VDUB, tmp_file))
             subp.communicate()
 
             previewer = bounced_avi
@@ -107,9 +101,7 @@ def preview(request):
             with open(tmp_file, 'w') as fp:
                 print sylia
                 fp.write(sylia)
-            subp = subprocess.Popen(r'"%s" /i "%s"' % (os.path.join(PATH_TO_VDUB,
-                                                                'vdub64.exe'),
-                                                   tmp_file))
+            subp = subprocess.Popen(r'"%s" /i "%s"' % (PATH_TO_VDUB, tmp_file))
             subp.communicate()
 
             previewer = looped_avi

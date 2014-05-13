@@ -22,44 +22,44 @@
             <form id="form_${i}" method="post" action="javascript:preview(${i}, true, true);" class="preview_form">
                 <input id="full_path_${i}" name="full_path_${i}" class="element" type="text" value="${f[1]}" style="display:none;"/>
                 <ul>
-                    <li id="li_2_${i}">
-                        <label class="description" for="element_2"></label>
-		                <span>
-			                <input id="loop_${i}" name="loop_${i}" class="element checkbox" type="checkbox"/>
-                            <label class="choice" for="loop_${i}">Enable looping</label>
-                        </span>
-                    </li>
-                    <li id="li_1">
-                        <label class="description" for="repeat_${i}">Loop Count </label>
+                    <li>
                         <div>
+                            <label class="description">Loop</label>
+                            <label class="choice">Enable looping</label>
+                            <input id="loop_${i}" name="loop_${i}" class="element checkbox" type="checkbox"/>
+                        </div>
+                        <div>
+                            <label class="description">Loop Count </label>
                             <input id="repeat_${i}" name="repeat_${i}" class="element text small" type="text" maxlength="255" value="1"/>
                         </div>
-                        <p class="guidelines" id="guide_1_${i}">
-                        </p>
                     </li>
-                    <li id="li_3_${i}">
-                        <label class="description" for="element_3">Bounce </label>
-		                <span>
-			                <input id="bounce_${i}" name="bounce_${i}" class="element checkbox " type="checkbox"/>
-                            <label class="choice" for="bounce_${i}">Enable</label>
-		                </span>
-                        <p class="guidelines" id="guide_3_${i}">
-                        </p>
-                    </li>
-
+                    <br>
                     <li>
-                        <label class="resize_${i}" for="element_5">Resize technique</label>
-                        <span>
-			                <input name="resize_${i}" class="element" type="radio" value="box" checked="1">Box
-			                <input name="resize_${i}" class="element" type="radio" value="fill">Fill
-                            <label class="choice" for="resize_${i}"></label>
-		                </span>
-                        <p class="guidelines" id="guide_5_${i}">
-                        </p>
+                        <div>
+                            <label class="description">Bounce</label>
+                            <input id="bounce_${i}" name="bounce_${i}" class="element checkbox " type="checkbox"/>
+                            <label class="choice">Enable</label>
+                        </div>
                     </li>
-                    <li class="buttons">
+                    <br>
+                    <li>
+                        <div>
+                            <label class="resize">Resize technique</label>
+                            <input name="resize_${i}" class="element" type="radio" value="box" checked="1">Box
+                            <input name="resize_${i}" class="element" type="radio" value="fill">Fill
+                            <label class="choice" for="resize_${i}"></label>
+		                </div>
+                    </li>
+                    <br>
+                    <li>
+                    <div>
                         <input type="hidden" name="form_id" value="preview_${i}"/>
                         <input id="saveForm_${i}" class="button_text" type="submit" name="submit" value="Preview"/>
+                    </div>
+
+                    <div>
+                        <input id="delete_${i}" class="button_text" style="float:right;" type="submit" name="delete" value="Delete?" onclick="deleteMe(${i});"/>
+                    </div>
                     </li>
                 </ul>
             </form>
@@ -81,6 +81,13 @@
 <script>
 var count = ${len(found)};
 var rendered = [];
+
+function deleteMe(i){
+    var confirmation = confirm("Sure to delete?");
+    if (confirmation == true){
+        $("#form_container_" + i + "").remove();
+    }
+}
 
 function returnJson(data, status, xhr){
     console.log(data);
@@ -143,6 +150,10 @@ function alertSavePath(data, status, xhr){
 function render(){
 ##    reset renders in case previews has populated it at all
     rendered = [];
+    if (rendered.length == 0){
+        alert("ERROR! Need at least 1 item in the render pipeline!");
+        return;
+    }
     var forms = $(".preview_form");
     var compress = $("#compress").is(":checked");
     var fps = $('#fps').val();

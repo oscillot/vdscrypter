@@ -3,8 +3,6 @@
   <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>VDScrypter - Choose Folder</title>
-        <link rel="stylesheet" type="text/css" href="static/css/view.css" media="all">
-        <script type="text/javascript" src="static/js/view.js"></script>
   </head>
 
   <body id="main_body" >

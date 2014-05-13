@@ -11,6 +11,43 @@
             <form id="fps_form" method="post" action="javascript:void(0);">
                 FPS: <input id="fps" name="fps" type="text" maxlength="255" value="30"/> This value is GLOBAL!
                 <input id="fps_hidden" style="display:none;" class="button_text" type="submit" name="hidden" value="hidden"/>
+                <ul>
+                    <li>
+                        <div>
+                            <label class="description">Global Loop</label>
+                            <label class="choice">Enable looping</label>
+                            <input id="loop_global" name="loop_global" class="element checkbox" type="checkbox" onchange="setLoops();"/>
+                        </div>
+                        <div>
+                            <label class="description">Global Loop Count </label>
+                            <input id="repeat_global" name="repeat_global" class="element text small" type="text" maxlength="255" value="1" onchange="setRepeat();"/>
+                        </div>
+                    </li>
+                    <br>
+                    <li>
+                        <div>
+                            <label class="description">Global Reverse</label>
+                            <input id="reverse_global" name="reverse_global" class="element checkbox " type="checkbox"  onchange="setReverse();"/>
+                        </div>
+                    </li>
+                    <br>
+                    <li>
+                        <div>
+                            <label class="description">Global Bounce</label>
+                            <input id="bounce_global" name="bounce_global" class="element checkbox " type="checkbox"  onchange="setBounce();"/>
+                        </div>
+                    </li>
+                    <br>
+                    <li>
+                        <div>
+                            <label>Global Resize technique</label>
+                            <input name="resize_global" class="resize_global" type="radio" value="box" checked="1" onchange="setResize();">Box
+                            <input name="resize_global" class="resize_global" type="radio" value="fill" onchange="setResize();">Fill
+                            <label class="choice" for="resize_global"></label>
+		                </div>
+                    </li>
+                    <br>
+                </ul>
             </form>
     <div id="outer_sort">
     %for i, f in enumerate(found):
@@ -26,33 +63,33 @@
                         <div>
                             <label class="description">Loop</label>
                             <label class="choice">Enable looping</label>
-                            <input id="loop_${i}" name="loop_${i}" class="element checkbox" type="checkbox"/>
+                            <input id="loop_${i}" name="loop_${i}" class="element checkbox loop" type="checkbox"/>
                         </div>
                         <div>
                             <label class="description">Loop Count </label>
-                            <input id="repeat_${i}" name="repeat_${i}" class="element text small" type="text" maxlength="255" value="1"/>
+                            <input id="repeat_${i}" name="repeat_${i}" class="element text small repeat" type="text" maxlength="255" value="1"/>
                         </div>
                     </li>
                     <br>
                     <li>
                         <div>
                             <label class="description">Reverse</label>
-                            <input id="reverse_${i}" name="reverse_${i}" class="element checkbox " type="checkbox"/>
+                            <input id="reverse_${i}" name="reverse_${i}" class="element checkbox reverse" type="checkbox"/>
                         </div>
                     </li>
                     <br>
                     <li>
                         <div>
                             <label class="description">Bounce</label>
-                            <input id="bounce_${i}" name="bounce_${i}" class="element checkbox " type="checkbox"/>
+                            <input id="bounce_${i}" name="bounce_${i}" class="element checkbox bounce" type="checkbox"/>
                         </div>
                     </li>
                     <br>
                     <li>
                         <div>
-                            <label class="resize">Resize technique</label>
-                            <input name="resize_${i}" class="element" type="radio" value="box" checked="1">Box
-                            <input name="resize_${i}" class="element" type="radio" value="fill">Fill
+                            <label>Resize technique</label>
+                            <input name="resize_${i}" class="element resize" type="radio" value="box" checked="1">Box
+                            <input name="resize_${i}" class="element resize" type="radio" value="fill">Fill
                             <label class="choice" for="resize_${i}"></label>
 		                </div>
                     </li>
@@ -87,6 +124,74 @@
 <script>
 var count = ${len(found)};
 var rendered = [];
+
+function setLoops(){
+    var global_loop = $("#loop_global");
+    var loops = $(".loop");
+    if (global_loop.is(':checked')){
+        for (var i=0;i<loops.length;i++){
+            loops[i].checked = true;
+        }
+    } else {
+        for (var j=0;j<loops.length;j++){
+            loops[j].checked = false;
+            }
+        }
+    }
+
+
+function setRepeat(){
+    var global_repeat = $("#repeat_global");
+    var repeats = $(".repeat");
+    for (var i=0;i<repeats.length;i++){
+        repeats[i].value = global_repeat.val();
+    }
+}
+
+function setReverse(){
+    var global_reverse = $("#reverse_global");
+    var reversed = $(".reverse");
+    if (global_reverse.is(':checked')){
+        for (var i=0;i<reversed.length;i++){
+            reversed[i].checked = true;
+        }
+    } else {
+        for (var j=0;j<reversed.length;j++){
+            reversed[j].checked = false;
+            }
+        }
+    }
+
+function setBounce(){
+    var global_bounce = $("#bounce_global");
+    var bounces = $(".bounce");
+    if (global_bounce.is(':checked')){
+        for (var i=0;i<bounces.length;i++){
+            bounces[i].checked = true;
+        }
+    } else {
+        for (var j=0;j<bounces.length;j++){
+            bounces[j].checked = false;
+            }
+        }
+    }
+
+function setResize(){
+    var global_resize = $(".resize_global");
+    for (var i=0;i<global_resize.length;i++){
+        if (global_resize[i].checked == true){
+            var method = global_resize[i].value;
+        }
+    }
+    var resizes = $(".resize");
+    for (var j=0;j<resizes.length;j++){
+        if (resizes[j].value == method){
+            resizes[j].checked = true;
+        } else {
+            resizes[j].checked = false;
+        }
+    }
+}
 
 function deleteMe(i){
     var confirmation = confirm("Sure to delete?");

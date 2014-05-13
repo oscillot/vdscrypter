@@ -127,11 +127,12 @@ function printData(data, status, xhr){
 }
 
 function alertSavePath(data, status, xhr){
+    $.ajax({
+        type: "GET",
+        url: "http://127.0.0.1:6543/cleanup"
+    });
     alert("File was rendered to: " + data.output);
-##    $.ajax({
-##        type: "GET",
-##        url: "http://127.0.0.1:6543/cleanup"
-##    })
+
 }
 
 function render(){

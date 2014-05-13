@@ -9,12 +9,17 @@ from vdscrypter.config import PATH_TO_VDUB, MEDIA_PLAYER
 def render(request):
     list_to_render = request.POST.getall('rendered[]')
     compress = request.POST.get('compress', 'true')
-    folder_path = request.POST.get('output', '')
-    if folder_path == '' or not os.path.exists(folder_path):
+    output = request.POST.get('output', '')
+    if output == '':
         folder_path = request.POST.get('folder_path', '')
-    if folder_path.endswith(os.path.sep):
-        folder_path = folder_path[:-1]
-    avi_name = folder_path + '.avi'
+        if folder_path.endswith(os.path.sep):
+            folder_path = folder_path[:-1]
+        avi_name = folder_path + '.avi'
+    else:
+        folder_path = output.rsplit(os.path.sep, 1)[0]
+        if not os.path.exists(folder_path):
+            os.makedirs(folder_path)
+        avi_name = output
     first = list_to_render[0]
     rest = list_to_render[1:]
     sylia = 'VirtualDub.Open(U"%s");\n' % first

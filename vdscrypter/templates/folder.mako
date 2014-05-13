@@ -9,7 +9,7 @@
 
 <body>
             <form id="fps_form" method="post" action="javascript:void(0);">
-                FPS: <input id="fps" name="fps" type="text" maxlength="255" value="30"/> This value is GLOBAL!
+                FPS: <input id="fps" name="fps" type="text" maxlength="255" value="15"/> This value is GLOBAL!
                 <input id="fps_hidden" style="display:none;" class="button_text" type="submit" name="hidden" value="hidden"/>
                 <ul>
                     <li>
@@ -41,8 +41,8 @@
                     <li>
                         <div>
                             <label>Global Resize technique</label>
-                            <input name="resize_global" class="resize_global" type="radio" value="box" checked="1" onchange="setResize();">Box
-                            <input name="resize_global" class="resize_global" type="radio" value="fill" onchange="setResize();">Fill
+                            <input name="resize_global" class="resize_global" type="radio" value="fill" checked="1" onchange="setResize();">Fill
+                            <input name="resize_global" class="resize_global" type="radio" value="box" onchange="setResize();">Box
                             <label class="choice" for="resize_global"></label>
 		                </div>
                     </li>
@@ -88,8 +88,8 @@
                     <li>
                         <div>
                             <label>Resize technique</label>
-                            <input name="resize_${i}" class="element resize" type="radio" value="box" checked="1">Box
-                            <input name="resize_${i}" class="element resize" type="radio" value="fill">Fill
+                            <input name="resize_${i}" class="element resize" type="radio" value="fill" checked="1">Fill
+                            <input name="resize_${i}" class="element resize" type="radio" value="box">Box
                             <label class="choice" for="resize_${i}"></label>
 		                </div>
                     </li>

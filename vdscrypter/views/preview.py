@@ -4,10 +4,8 @@ import traceback
 from pyramid.view import view_config
 
 from vdscrypter import TEMP_DIR
+from vdscrypter.config import PATH_TO_IM, PATH_TO_VDUB, MEDIA_PLAYER
 from vdscrypter.utils.conversions import get_microspf_from_fps
-
-PATH_TO_VDUB = r'c:\users\oscillot\downloads\vdub\vdub64.exe'
-PATH_TO_IM = r'C:\Program Files\ImageMagick-6.8.9-Q16\convert'
 
 
 @view_config(route_name='preview', renderer='json')
@@ -46,7 +44,9 @@ def preview(request):
         with open(tmp_file, 'w') as fp:
             print sylia
             fp.write(sylia)
-        subp = subprocess.Popen(r'%s /i %s' % (PATH_TO_VDUB, tmp_file))
+        subp = subprocess.Popen(r'%s /i %s' % (os.path.join(PATH_TO_VDUB,
+                                                            'vdub64.exe'),
+                                               tmp_file))
         subp.communicate()
         previewer = forward_avi
 
@@ -57,9 +57,9 @@ def preview(request):
             bounced_avi = os.path.join(TEMP_DIR, '%s_bounced.avi' % orig_name)
             subp = subprocess.Popen(
                 '%s "%s" -coalesce -reverse -quiet '
-                '-layers OptimizePlus  -loop 0 %s' % (PATH_TO_IM,
-                                                      full_path,
-                                                      reversed_gif))
+                '-layers OptimizePlus  -loop 0 %s' % (
+                    os.path.join(PATH_TO_IM, 'convert.exe'), full_path,
+                    reversed_gif))
             subp.communicate()
             sylia = 'VirtualDub.Open(U"%s");\n' % reversed_gif
             sylia += 'VirtualDub.video.SetFrameRate(%s, 1);\n' % \
@@ -77,7 +77,9 @@ def preview(request):
             with open(tmp_file, 'w') as fp:
                 print sylia
                 fp.write(sylia)
-            subp = subprocess.Popen(r'%s /i %s' % (PATH_TO_VDUB, tmp_file))
+            subp = subprocess.Popen(r'%s /i %s' % (os.path.join(PATH_TO_VDUB,
+                                                                'vdub64.exe'),
+                                                   tmp_file))
             subp.communicate()
 
             sylia = 'VirtualDub.Open(U"%s");\n' % forward_avi
@@ -87,7 +89,9 @@ def preview(request):
             with open(tmp_file, 'w') as fp:
                 print sylia
                 fp.write(sylia)
-            subp = subprocess.Popen(r'%s /i %s' % (PATH_TO_VDUB, tmp_file))
+            subp = subprocess.Popen(r'%s /i %s' % (os.path.join(PATH_TO_VDUB,
+                                                                'vdub64.exe'),
+                                                   tmp_file))
             subp.communicate()
 
             previewer = bounced_avi
@@ -103,14 +107,16 @@ def preview(request):
             with open(tmp_file, 'w') as fp:
                 print sylia
                 fp.write(sylia)
-            subp = subprocess.Popen(r'%s /i %s' % (PATH_TO_VDUB, tmp_file))
+            subp = subprocess.Popen(r'"%s" /i "%s"' % (os.path.join(PATH_TO_VDUB,
+                                                                'vdub64.exe'),
+                                                   tmp_file))
             subp.communicate()
 
             previewer = looped_avi
 
         if preview == 'true':
             # print previewer
-            subprocess.Popen('C:\\Program Files (x86)\\Combined Community Codec Pack\\MPC\\mpc-hc.exe %s' % previewer)
+            subprocess.Popen('%s %s' % (MEDIA_PLAYER, previewer))
 
     except Exception as e:
         traceback.print_exc()

@@ -3,8 +3,7 @@ import subprocess
 from pyramid.view import view_config
 
 from vdscrypter import TEMP_DIR
-
-PATH_TO_VDUB = r'c:\users\oscillot\downloads\vdub\vdub64.exe'
+from vdscrypter.config import PATH_TO_VDUB, MEDIA_PLAYER
 
 @view_config(route_name='render', renderer='json')
 def render(request):
@@ -29,7 +28,9 @@ def render(request):
     with open(tmp_file, 'w') as fp:
         print sylia
         fp.write(sylia)
-    subp = subprocess.Popen(r'%s /i %s' % (PATH_TO_VDUB, tmp_file))
+    subp = subprocess.Popen(r'%s /i %s' % (os.path.join(PATH_TO_VDUB,
+                                                        'vdub64.exe'),
+                                           tmp_file))
     subp.communicate()
-    subprocess.Popen('"C:\\Program Files (x86)\\Combined Community Codec Pack\\MPC\\mpc-hc.exe" "%s"' % avi_name)
+    subprocess.Popen('"%s" "%s"' % (MEDIA_PLAYER, avi_name))
     return {'output': avi_name}

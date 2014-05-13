@@ -1,22 +1,6 @@
-[
-    {
-        "magic_numbers": {
-            "jpeg": "ffd8ff",
-            "jpg": "ffd8ff",
-            "gif": "47494638",
-            "bmp": "424d",
-            "png": "89504e47"
-        },
-        "vdub_path": "c:\\users\\oscillot\\downloads\\vdub\\vdub64.exe",
-        "input_types": {
-            "all": [".avi", ".divx", ".mpg", ".mpv", ".m1v", ".dat", ".anim", ".flm", ".gif", ".bmp", ".tga", ".jpg", ".jpeg", ".iff", ".avs", ".vdr", ".vpy"],
-            "images": [".gif", ".bmp", ".tga", ".jpg", ".jpeg"],
-            "videos": [".avi", ".divx", ".mpg", ".mpv", ".m1v", ".dat"],
-            "avi": [".avi"],
-            "gif": [".gif"]
-        },
-        "fourcc_handlers": {
-            "xvid": "0x64697678"
-        }
-    }
-]
+{
+    "virtual_dub_directory": "c:\\users\\oscillot\\downloads\\vdub",
+    "image_magick_directory": "C:\\Program Files\\ImageMagick-6.8.9-Q16",
+    "media_player_executable":
+        "C:\\Program Files (x86)\\Combined Community Codec Pack\\MPC\\mpc-hc.exe"
+}

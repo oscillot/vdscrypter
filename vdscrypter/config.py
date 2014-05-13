@@ -1,0 +1,13 @@
+import os
+import json
+
+HERE = os.path.abspath(os.path.dirname(__file__))
+
+with open(os.path.join(HERE, 'config.json')) as fp:
+    config_data = fp.read()
+
+config = json.loads(config_data)
+
+PATH_TO_VDUB = config['virtualdub_directory']
+PATH_TO_IM = config['imagemagick_directory']
+MEDIA_PLAYER = config['media_player_executable']

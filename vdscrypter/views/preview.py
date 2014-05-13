@@ -24,7 +24,20 @@ def preview(request):
         loop = request.POST.get('loop')
         fps = request.POST.get('fps', '30')
         repeat = request.POST.get('repeat', '1')
+        reverse = request.POST.get('reverse')
         preview = request.POST.get('preview', 'false')
+
+        if reverse == 'true':
+            backwards_gif = os.path.join(TEMP_DIR, '%s_backwards.gif' % orig_name)
+            subp = subprocess.Popen(
+                '%s "%s" -coalesce -reverse -quiet '
+                '-layers OptimizePlus  -loop 0 %s' % (
+                    os.path.join(PATH_TO_IM), full_path,
+                    backwards_gif))
+            subp.communicate()
+            # in the case of a reverse reset full path to the path of the new
+            # backwards gif
+            full_path = backwards_gif
 
         forward_avi = os.path.join(TEMP_DIR, '%s_forward.avi' % orig_name)
         #render the gif forward and resize/letterbox

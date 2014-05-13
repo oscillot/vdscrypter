@@ -36,9 +36,15 @@
                     <br>
                     <li>
                         <div>
+                            <label class="description">Reverse</label>
+                            <input id="reverse_${i}" name="reverse_${i}" class="element checkbox " type="checkbox"/>
+                        </div>
+                    </li>
+                    <br>
+                    <li>
+                        <div>
                             <label class="description">Bounce</label>
                             <input id="bounce_${i}" name="bounce_${i}" class="element checkbox " type="checkbox"/>
-                            <label class="choice">Enable</label>
                         </div>
                     </li>
                     <br>
@@ -114,6 +120,7 @@ function preview(i, preview, async){
     var full_path = $("#full_path_" + i + "").val();
     var loop = $("#loop_" + i + "").is(":checked");
     var bounce = $("#bounce_" + i + "").is(":checked");
+    var reverse = $("#reverse_" + i + "").is(":checked");
     var resize = $("input[type='radio'][name='resize_" + i + "']:checked").val();
     $.ajax({
         type: "POST",
@@ -122,6 +129,7 @@ function preview(i, preview, async){
                loop: loop,
                repeat: repeat,
                bounce: bounce,
+               reverse: reverse,
                fps: fps,
                resize: resize,
                preview: preview

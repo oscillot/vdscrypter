@@ -10,7 +10,8 @@ def cleanup(request):
         for f in files:
             if 'vdscrypter_' in root:
                 os.remove(os.path.join(root, f))
-    for root, dirs, files in os.walk('C:\\Users\\Oscillot\\AppData\\Local\\Temp'):
+        #doing this within this loop ensures that the current folder stays
+        # around for the current session
         for d in dirs:
             if d.startswith('vdscrypter_'):
                 try:

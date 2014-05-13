@@ -73,6 +73,10 @@
                 <input id="render" class="button_text" type="submit" name="Render" value="Render"/>
             </form>
     </div>
+    <div>
+        <h3 id="gotmade" style="color:green;"></h3>
+    </div>
+    <div id="floor" style="display:hidden"></div>
 
 <script>
 var count = ${len(found)};
@@ -131,8 +135,9 @@ function alertSavePath(data, status, xhr){
         type: "GET",
         url: "http://127.0.0.1:6543/cleanup"
     });
-    alert("File was rendered to: " + data.output);
-
+##    alert("File was rendered to: " + data.output);
+    $('#gotmade').text("File was rendered to: " + data.output);
+    $('#floor')[0].scrollIntoView();
 }
 
 function render(){
